@@ -3,10 +3,10 @@ import {
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'prisma/prisma.service';
 import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDto, LoginUserDto } from '../dto/user.dto'; 
+import { RegisterUserDto, LoginUserDto } from '../dtos/user.dto'; 
 
 @Injectable()
 export class UsersService {
@@ -56,9 +56,11 @@ export class UsersService {
     }
 
     // Generate a JWT
-    const payload = { user: user.id, role: user.role };
-    const accessToken = this.jwtService.sign(payload);
-
+    const payload = { userId: user.id, role: user.role };
+    const accessToken = await this.jwtService.signAsync(payload, {
+        expiresIn: '1d', 
+      });
+      
     return { accessToken };
   }
   

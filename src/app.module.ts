@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { OrdersModule } from './orders/orders.module';
 import { ChatModule } from './chat/chat.module';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Module({
   imports: [UsersModule, OrdersModule, ChatModule],
