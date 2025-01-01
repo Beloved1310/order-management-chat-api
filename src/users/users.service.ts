@@ -3,10 +3,10 @@ import {
   BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { RegisterUserDto, LoginUserDto } from '../dtos/user.dto'; 
+import { RegisterUserDto, LoginUserDto } from '../dtos/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,11 +15,15 @@ export class UsersService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async registerUser(registerUserDto: RegisterUserDto): Promise<{ message: string }> {
+  async registerUser(
+    registerUserDto: RegisterUserDto,
+  ): Promise<{ message: string }> {
     const { email, password, role } = registerUserDto;
 
     // Check if the user already exists
-    const existingUser = await this.prisma.user.findUnique({ where: { email } });
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email },
+    });
     if (existingUser) {
       throw new BadRequestException('Email is already in use.');
     }
@@ -39,8 +43,9 @@ export class UsersService {
     return { message: 'User registered successfully.' };
   }
 
-
-  async loginUser(loginUserDto: LoginUserDto): Promise<{ accessToken: string }> {
+  async loginUser(
+    loginUserDto: LoginUserDto,
+  ): Promise<{ accessToken: string }> {
     const { email, password } = loginUserDto;
 
     // Find the user
@@ -58,10 +63,9 @@ export class UsersService {
     // Generate a JWT
     const payload = { userId: user.id, role: user.role };
     const accessToken = await this.jwtService.signAsync(payload, {
-        expiresIn: '1d', 
-      });
-      
+      expiresIn: '1d',
+    });
+
     return { accessToken };
   }
-  
 }
