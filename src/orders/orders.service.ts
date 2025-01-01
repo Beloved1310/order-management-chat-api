@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateOrderDto, UpdateOrderStatusDto } from '../dtos/order.dto';
+import { CreateOrderDto } from '../dtos/order.dto';
 import { Role } from '../roles/roles.enum';
 
 @Injectable()
@@ -8,7 +12,6 @@ export class OrdersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createOrder(user, createOrderDto: CreateOrderDto) {
-    
     if (user.role !== Role.REGULAR) {
       throw new ForbiddenException('Only Regular Users can create orders');
     }

@@ -3,7 +3,6 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import { hash } from 'bcrypt';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';

@@ -7,7 +7,6 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Role } from '../roles/roles.enum';
-import { Prisma } from '@prisma/client';
 
 jest.mock('../prisma/prisma.service', () => {
   return {
@@ -20,7 +19,6 @@ jest.mock('../prisma/prisma.service', () => {
     })),
   };
 });
-
 
 describe('OrdersService Integration Tests', () => {
   let ordersService: OrdersService;
