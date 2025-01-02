@@ -11,6 +11,21 @@ import { Role } from '../roles/roles.enum';
 export class OrdersService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Helper function to check if user has access to the order
+  private async checkOrderAccess(user, orderId: number) {
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+    });
+
+    if (!order) throw new NotFoundException('Order not found');
+    if (user.role !== Role.ADMIN && order.userId !== user.userId) {
+      throw new ForbiddenException('Access denied');
+    }
+
+    return order;
+  }
+
+  // Create an order for a regular user
   async createOrder(user, createOrderDto: CreateOrderDto) {
     if (user.role !== Role.REGULAR) {
       throw new ForbiddenException('Only Regular Users can create orders');
@@ -30,21 +45,21 @@ export class OrdersService {
     return order;
   }
 
+  // Get order details with its chat room and messages
   async getOrder(user, orderId: number) {
-    const order = await this.prisma.order.findUnique({
+    const order = await this.checkOrderAccess(user, orderId);
+
+    return this.prisma.order.findUnique({
       where: { id: orderId },
-      include: { chatRoom: { include: { messages: true } } },
+      include: {
+        chatRoom: { 
+          include: { messages: true } 
+        },
+      },
     });
-
-    if (!order) throw new NotFoundException('Order not found');
-
-    if (user.role !== 'Admin' && order.userId !== user.userId) {
-      throw new ForbiddenException('Access denied');
-    }
-
-    return order;
   }
 
+  // Update the order status
   async updateOrderStatus(orderId: number, status: string) {
     const validStatuses = ['Processing', 'Completed'];
     if (!validStatuses.includes(status)) {
