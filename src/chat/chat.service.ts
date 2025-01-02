@@ -66,31 +66,47 @@ export class ChatService {
 
   // Close a chat room (only accessible by admin)
   async closeChat(orderId: number, adminId: number, summary: string) {
+    // Fetch the chat room and associated order in one query
     const chatRoom = await this.prisma.chatRoom.findUnique({
       where: { orderId },
+      include: { order: true }, // Include related order data
     });
-
+  
     if (!chatRoom) throw new NotFoundException('Chat room not found');
-    if (chatRoom.closed)
-      throw new ForbiddenException('Chat room is already closed');
-
-    // Only admins can close the chat
+    if (chatRoom.closed) throw new ForbiddenException('Chat room is already closed');
+  
+    // Validate admin role
     const admin = await this.prisma.user.findUnique({
       where: { id: adminId },
     });
-
+  
     if (!admin || admin.role !== Role.ADMIN) {
       throw new ForbiddenException('Only admins can close chat rooms');
     }
-
-    return this.prisma.chatRoom.update({
-      where: { id: chatRoom.id },
-      data: {
-        closed: true,
-        summary,
-      },
-    });
+  
+    // Ensure the order exists before proceeding
+    if (!chatRoom.order) {
+      throw new NotFoundException('Associated order not found');
+    }
+  
+    // Perform updates in a transaction
+    return this.prisma.$transaction([
+      // Update the order status
+      this.prisma.order.update({
+        where: { id: chatRoom.order.id },
+        data: { status: 'Processing' },
+      }),
+      // Close the chat room
+      this.prisma.chatRoom.update({
+        where: { id: chatRoom.id },
+        data: {
+          closed: true,
+          summary,
+        },
+      }),
+    ]);
   }
+  
 
   // Get chat history for an order
   async getChatHistory(orderId: number) {
