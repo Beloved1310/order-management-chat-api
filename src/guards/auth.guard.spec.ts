@@ -1,7 +1,5 @@
 import { AuthGuard } from './auth.guard';
 
 describe('UsersGuard', () => {
-  it('should be defined', () => {
-   
-  });
+  it('should be defined', () => {});
 });

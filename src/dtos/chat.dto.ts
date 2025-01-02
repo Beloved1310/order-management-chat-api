@@ -6,7 +6,6 @@ export class SendMessageDto {
   content: string;
 }
 
-
 export class CloseChatDto {
   @IsNotEmpty()
   @IsString()

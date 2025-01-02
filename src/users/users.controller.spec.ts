@@ -8,8 +8,8 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     userServiceMock = {
-      registerUser: jest.fn(), 
-      loginUser: jest.fn(), 
+      registerUser: jest.fn(),
+      loginUser: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -17,7 +17,7 @@ describe('UsersController', () => {
       providers: [
         {
           provide: UsersService,
-          useValue: userServiceMock, 
+          useValue: userServiceMock,
         },
       ],
     }).compile();

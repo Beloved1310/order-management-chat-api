@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChatService } from './chat.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { ForbiddenException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { Role } from '../roles/roles.enum';
 
 describe('ChatService', () => {
@@ -22,7 +26,7 @@ describe('ChatService', () => {
       const orderId = 1;
       const userId = 1;
       const content = 'Hello, this is a message';
-      
+
       prismaService.chatRoom.findUnique = jest.fn().mockResolvedValue({
         id: 1,
         orderId: 1,
@@ -65,7 +69,9 @@ describe('ChatService', () => {
         closed: true,
       });
 
-      await expect(chatService.sendMessage(orderId, userId, content)).rejects.toThrow(ForbiddenException);
+      await expect(
+        chatService.sendMessage(orderId, userId, content),
+      ).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -79,8 +85,14 @@ describe('ChatService', () => {
         orderId: 1,
         closed: false,
         messages: [
-          { content: 'Message 1', sender: { id: 1, email: 'user@example.com' } },
-          { content: 'Message 2', sender: { id: 1, email: 'user@example.com' } },
+          {
+            content: 'Message 1',
+            sender: { id: 1, email: 'user@example.com' },
+          },
+          {
+            content: 'Message 2',
+            sender: { id: 1, email: 'user@example.com' },
+          },
         ],
       });
 
@@ -141,12 +153,14 @@ describe('ChatService', () => {
         closed: true,
       });
 
-      await expect(chatService.closeChat(orderId, adminId, summary)).rejects.toThrow(ForbiddenException);
+      await expect(
+        chatService.closeChat(orderId, adminId, summary),
+      ).rejects.toThrow(ForbiddenException);
     });
 
     it('should throw ForbiddenException if user is not an admin', async () => {
       const orderId = 1;
-      const adminId = 2;  // Non-admin user
+      const adminId = 2; // Non-admin user
       const summary = 'Chat summary';
 
       prismaService.chatRoom.findUnique = jest.fn().mockResolvedValue({
@@ -157,10 +171,12 @@ describe('ChatService', () => {
 
       prismaService.user.findUnique = jest.fn().mockResolvedValue({
         id: 2,
-        role: Role.REGULAR,  // Non-admin user
+        role: Role.REGULAR, // Non-admin user
       });
 
-      await expect(chatService.closeChat(orderId, adminId, summary)).rejects.toThrow(ForbiddenException);
+      await expect(
+        chatService.closeChat(orderId, adminId, summary),
+      ).rejects.toThrow(ForbiddenException);
     });
   });
 });

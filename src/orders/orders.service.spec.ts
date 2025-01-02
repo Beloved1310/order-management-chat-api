@@ -163,12 +163,12 @@ describe('OrdersService Integration Tests', () => {
     it('should throw InternalServerErrorException on failure', async () => {
       const user = { userId: 1, role: Role.REGULAR };
       const orderId = 1;
-  
+
       // Mock PrismaService to throw an error
       jest
         .spyOn(prismaService.order, 'findUnique')
         .mockRejectedValue(new InternalServerErrorException('Database error'));
-  
+
       // Test that the exception is thrown
       await expect(ordersService.getOrder(user, orderId)).rejects.toThrow(
         InternalServerErrorException,
@@ -190,7 +190,6 @@ describe('OrdersService Integration Tests', () => {
         status,
       });
 
-     
       const result = await ordersService.updateOrderStatus(orderId, status);
       expect(result.status).toBe(status);
       expect(prismaService.order.update).toHaveBeenCalledWith({
