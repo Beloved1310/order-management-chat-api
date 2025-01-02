@@ -3,7 +3,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { AuthGuard } from '../guards/auth.guard';
-import { PrismaService } from 'prisma/prisma.service';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'src/guards/roles.guard';
 @Module({
@@ -16,7 +15,6 @@ import { RolesGuard } from 'src/guards/roles.guard';
   ],
   providers: [
     UsersService,
-    PrismaService,
     // {
     //   provide: APP_GUARD,
     //   useClass: AuthGuard, // Global AuthGuard to run first
@@ -27,7 +25,6 @@ import { RolesGuard } from 'src/guards/roles.guard';
     // },
   ],
   controllers: [UsersController],
-  exports: [UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}
-

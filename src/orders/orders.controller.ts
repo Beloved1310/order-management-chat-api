@@ -7,15 +7,13 @@ import {
   Param,
   UseGuards,
   Req,
-  ForbiddenException,
-  NotFoundException,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto, UpdateOrderStatusDto } from '../dtos/order.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../roles/roles.decorator';
-import { Role } from 'src/roles/roles.enum';
+import { Role } from '../roles/roles.enum';
 
 @Controller('orders')
 @UseGuards(AuthGuard)
@@ -36,11 +34,11 @@ export class OrdersController {
   @Roles(Role.ADMIN)
   @UseGuards(RolesGuard)
   async updateOrderStatus(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateOrderStatusDto: UpdateOrderStatusDto,
   ) {
     return this.ordersService.updateOrderStatus(
-      parseInt(id),
+      id,
       updateOrderStatusDto.status,
     );
   }

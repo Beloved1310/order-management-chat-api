@@ -51,11 +51,21 @@ export class OrdersService {
       throw new ForbiddenException('Invalid order status');
     }
 
-    const order = await this.prisma.order.update({
+    // Check if the order exists
+    const existingOrder = await this.prisma.order.findUnique({
+      where: { id: orderId },
+    });
+
+    if (!existingOrder) {
+      throw new NotFoundException(`Order with ID ${orderId} not found`);
+    }
+
+    // Update the order status
+    const updatedOrder = await this.prisma.order.update({
       where: { id: orderId },
       data: { status },
     });
 
-    return order;
+    return updatedOrder;
   }
 }

@@ -13,7 +13,7 @@ import { SendMessageDto, CloseChatDto } from '../dtos/chat.dto';
 import { AuthGuard } from '../guards/auth.guard';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../roles/roles.decorator';
-import { Role } from 'src/roles/roles.enum';
+import { Role } from '../roles/roles.enum';
 
 @Controller('chat')
 @UseGuards(AuthGuard)
