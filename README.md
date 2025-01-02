@@ -109,6 +109,7 @@ npm install
 
 ```bash
 DATABASE_URL=postgresql://user:password@localhost:5432/order_chat_db
+JWT_SECRET=anyrandomcryptonumber
 ```
 
 ### 3. Run Prisma migrations to create the database schema
