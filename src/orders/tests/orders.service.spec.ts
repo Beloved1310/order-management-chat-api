@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OrdersService } from './orders.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { OrdersService } from '../orders.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import {
   ForbiddenException,
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Role } from '../roles/roles.enum';
+import { Role } from '../../roles/roles.enum';
 
-jest.mock('../prisma/prisma.service', () => {
+jest.mock('../../prisma/prisma.service', () => {
   return {
     PrismaService: jest.fn().mockImplementation(() => ({
       order: {

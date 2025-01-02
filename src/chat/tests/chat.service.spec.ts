@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ChatService } from './chat.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { ChatService } from '../chat.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import {
   ForbiddenException,
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Role } from '../roles/roles.enum';
+import { Role } from '../../roles/roles.enum';
 
 describe('ChatService', () => {
   let chatService: ChatService;

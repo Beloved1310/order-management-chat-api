@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users.service';
+import { UsersController } from '../users.controller';
+import { PrismaService } from '../../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 
