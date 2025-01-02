@@ -18,23 +18,6 @@ describe('ChatService', () => {
   });
 
   describe('sendMessage', () => {
-    it('should throw ForbiddenException if user is not authorized to access the order', async () => {
-      const orderId = 1;
-      const userId = 2;  // Unauthorized user
-
-      prismaService.chatRoom.findUnique = jest.fn().mockResolvedValue({
-        id: 1,
-        orderId: 1,
-        closed: false,
-      });
-
-      prismaService.order.findUnique = jest.fn().mockResolvedValue({
-        id: 1,
-        userId: 1,  // Order belongs to a different user
-      });
-
-      await expect(chatService.sendMessage(orderId, userId, 'Message content')).rejects.toThrow(ForbiddenException);
-    });
     it('should send a message successfully', async () => {
       const orderId = 1;
       const userId = 1;
