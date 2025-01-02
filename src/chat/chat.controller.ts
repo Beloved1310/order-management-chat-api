@@ -6,7 +6,6 @@ import {
   Body,
   Param,
   UseGuards,
-  ForbiddenException,
   Req,
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
