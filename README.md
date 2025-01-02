@@ -39,7 +39,6 @@ The solution demonstrates proficiency in building APIs, handling real-time commu
   - [Technical Requirements](#technical-requirements)
   - [Installation](#installation)
     - [1. Clone the Repository](#1-clone-the-repository)
-  - [Installation](#installation-1)
     - [2. Install Dependencies](#2-install-dependencies)
     - [2. Setup Database](#2-setup-database)
     - [3. Run Prisma migrations to create the database schema](#3-run-prisma-migrations-to-create-the-database-schema)
@@ -90,35 +89,37 @@ To get started with this project locally, follow these steps:
 ```bash
 git clone https://github.com/Beloved1310/order-management-chat-api
 cd order-management-chat-api
-
-## Installation
+```
 
 ### 2. Install Dependencies
 Ensure you have **Node.js** (v14 or higher) and **npm** installed. Then, install the required dependencies:
 
 ```bash
 npm install
+```
 
 ### 2. Setup Database
 
 ```bash
 DATABASE_URL=postgresql://user:password@localhost:5432/order_chat_db
+```
 
 ### 3. Run Prisma migrations to create the database schema
 
 ```bash
 npx prisma migrate deploy
+```
 
 ### 4. Start the Application
 
 ```bash
 npm run start:dev
-
+```
 ### 5. Testing
 
 ```bash
 npm run test
-
+```
 
 
 
