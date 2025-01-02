@@ -48,6 +48,7 @@ model ChatRoom {
   messages      Message[]
   closed        Boolean   @default(false)
   summary       String?   
+  createdAt     DateTime  @default(now())
 
   @@index([orderId])        
   @@index([closed])        

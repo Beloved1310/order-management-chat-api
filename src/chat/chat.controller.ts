@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   UseGuards,
+  ForbiddenException,
   Req,
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
@@ -50,5 +51,10 @@ export class ChatController {
   ) {
     const adminId = req.user.userId;
     return this.chatService.closeChat(orderId, adminId, closeChatDto.summary);
+  }
+
+  @Get(':orderId/history')
+  async getChatHistory(@Param('orderId') orderId: number, @Req() req: any) {
+    return this.chatService.getChatHistory(orderId);
   }
 }

@@ -7,10 +7,12 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
-import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, InternalServerErrorException, Logger } from '@nestjs/common';
 
 @WebSocketGateway(3002, { cors: { origin: '*' },  })
 export class ChatGateway {
+  private readonly logger = new Logger(ChatGateway.name);
+
   @WebSocketServer()
   server: Server;
 
@@ -24,7 +26,7 @@ export class ChatGateway {
   ) {
     try {
       if (!orderId) {
-        console.error('Order ID is missing or invalid');
+        this.logger.log('Order ID is missing or invalid...');
         throw new BadRequestException('Order ID must be a valid number.');
       }
 
@@ -41,11 +43,9 @@ export class ChatGateway {
     payload: { orderId: number; userId: number; content: string },
     @ConnectedSocket() client: Socket,
   ) {
-    console.log(payload.orderId)
     try {
       const { orderId, userId, content } = payload;
-      console.log(orderId, userId, content);
-
+  
       // Validate the payload
       if (!orderId || !userId || !content) {
         throw new BadRequestException(
@@ -73,9 +73,7 @@ export class ChatGateway {
       error instanceof BadRequestException ? error.message :
       error instanceof InternalServerErrorException ? 'Internal server error occurred.' :
       'An unexpected error occurred.';
-
-    console.error('Error:', error.message || error);
-
+      this.logger.error('Error:', error.message || error);
     client.emit('error', { message: errorMessage });
   }
 }

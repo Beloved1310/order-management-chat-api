@@ -83,4 +83,15 @@ export class ChatService {
       },
     });
   }
+
+  async getChatHistory(orderId: number) {
+    return this.prisma.chatRoom.findMany({
+      where: { orderId },
+      select: {
+        summary: true,
+        orderId: true,
+        messages: true,
+      },
+    });
+  }
 }
