@@ -4,6 +4,12 @@
 
 This repository contains the solution for the backend assessment, where the goal was to develop a robust API using **TypeScript** and **NestJS**. The API provides the following functionalities:
 
+# API Documentation
+
+For detailed API documentation and examples, refer to the Postman Collection:  
+[API DOCUMENTATION](https://documenter.getpostman.com/view/15034996/2sAYJ7hKd3)
+
+
 1. **Order Management** – Regular Users can create and manage orders.
 2. **Chat System** – A real-time chat is created for each order, allowing Regular Users and Admins to communicate.
 3. **Order Status** – Admins can update the status of an order from `Review` to `Processing` to `Completed`.
@@ -29,6 +35,7 @@ The solution demonstrates proficiency in building APIs, handling real-time commu
 
 - [Order Management \& Chat System API](#order-management--chat-system-api)
   - [Overview](#overview)
+- [API Documentation](#api-documentation)
   - [Features](#features)
   - [Table of Contents](#table-of-contents)
   - [System Requirements](#system-requirements)
